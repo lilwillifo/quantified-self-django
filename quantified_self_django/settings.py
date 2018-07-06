@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'api',
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'quantified_self_django.urls'
@@ -126,15 +126,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
-# don't want emails while developing
-ADMINS = ()
-MANAGERS = ADMINS
-
-DATABASE_ENGINE = 'mysql'
-DATABASE_NAME = 'quantified_self_django'
-DATABASE_USER = 'margaretwilliford'
-DATABASE_HOST = 'localhost'
-DATABASE_PORT = ''
