@@ -79,12 +79,16 @@ WSGI_APPLICATION = 'quantified_self_django.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-    # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    # 'NAME': 'quantified_self',
-    dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
 }
+# DATABASES = {
+#     'default': {
+#     # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#     # 'NAME': 'quantified_self',
+#     }
+# }
 
 
 # Password validation
