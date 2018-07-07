@@ -1,7 +1,12 @@
-from django.urls import path
+from django.conf.urls import url, include
+from rest_framework.urlpatterns import format_suffix_patterns
+from .views import CreateView
+from .views import DetailsView
 
-from . import views
+urlpatterns = {
+    url(r'^foods', CreateView.as_view(), name="create"),
+    url(r'^foods/(?P<pk>[0-9]+)/$',
+            DetailsView.as_view(), name="details"),
+}
 
-urlpatterns = [
-	path('foods', views.food_index, name='food_index'),
-]
+urlpatterns = format_suffix_patterns(urlpatterns)
