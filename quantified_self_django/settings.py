@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'dj_database_url',
     'api',
+    'rest_framework',
 ]
 
 MIDDLEWARE_CLASSES = [
