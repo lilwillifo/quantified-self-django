@@ -81,9 +81,9 @@ WSGI_APPLICATION = 'quantified_self_django.wsgi.application'
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'quantified_self'
-    # dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    'NAME': 'quantified_self',
     }
+    # dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
 
 
