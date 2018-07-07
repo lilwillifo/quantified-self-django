@@ -8,7 +8,7 @@ class ModelTestCase(TestCase):
         """Define the test client and other test variables."""
         self.food_name = "Banana"
         self.food_calories = 50
-        self.food = Food(name=self.food_calories)
+        self.food = Food(name=self.food_name, calories=self.food_calories)
 
     def test_model_can_create_a_food(self):
         """Test the food model can create a food."""
