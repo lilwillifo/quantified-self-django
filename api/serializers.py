@@ -8,5 +8,5 @@ class FoodSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = Food
-        fields = ('name', 'calories')
+        fields = ('id', 'name', 'calories')
         read_only_fields = ('date_created', 'date_modified')
