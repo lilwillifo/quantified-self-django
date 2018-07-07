@@ -3,6 +3,8 @@ from .models import Food
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.urls import reverse
+from rest_framework.test import APIRequestFactory
+from .views import FoodViews
 
 class ModelTestCase(TestCase):
     """This class defines the test suite for the food model."""
@@ -20,17 +22,24 @@ class ModelTestCase(TestCase):
         new_count = Food.objects.count()
         self.assertNotEqual(old_count, new_count)
 
-class ViewTestCase(TestCase):
+class ViewSetTest(TestCase):
     """Test suite for the api views."""
-
+    def test_view_set(self):
+        request = APIRequestFactory().get("")
+        food_detail = FoodViews.as_view({'get': 'retrieve'})
+        food = Food.objects.create(name="banana", calories= 80)
+        response = food_detail(request)
+        self.assertEqual(response.status_code, 200)
     def setUp(self):
         """Define the test client and other test variables."""
-        self.client = APIClient()
-        self.food_data = {'name': 'Oatmeal', 'calories': '500'}
-        self.response = self.client.post(
-            reverse_action('create'),
-            self.food_data,
-            format="json")
+        # self.client = APIClient()
+        self.factory = APIRequestFactory()
+        self.response = self.factory.post('/foods/', {'name': 'Oatmeal', 'calories': '500'}, format='json')
+        # self.food_data = {'name': 'Oatmeal', 'calories': '500'}
+        # self.response = self.client.post(
+        #     reverse('create'),
+        #     self.food_data,
+        #     format="json")
 
     def test_api_can_create_a_food(self):
         """Test the api has food creation capability."""
