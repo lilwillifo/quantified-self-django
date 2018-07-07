@@ -2,7 +2,7 @@ from django.test import TestCase
 from .models import Food
 from rest_framework.test import APIClient
 from rest_framework import status
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 class ModelTestCase(TestCase):
     """This class defines the test suite for the food model."""
