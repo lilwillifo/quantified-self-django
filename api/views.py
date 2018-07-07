@@ -1,18 +1,53 @@
-from rest_framework import generics
-from .serializers import FoodSerializer
-from .models import Food
+from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, JsonResponse
+from api.serializers import FoodSerializer
+from rest_framework import viewsets
+from api.models import Food
+from rest_framework.response import Response
+import json
 
-class CreateView(generics.ListCreateAPIView):
-    """This class defines the create behavior of our rest api."""
-    queryset = Food.objects.all()
-    serializer_class = FoodSerializer
+class FoodViews(viewsets.ViewSet):
+    def list(self, request):
+        foods = Food.objects.all()
+        serializer = FoodSerializer(foods, many=True)
+        return Response(serializer.data)
 
-    def perform_create(self, serializer):
-        """Save the post data when creating a new food."""
-        serializer.save()
+    def retrieve(self, request, food_id=None):
+        foods = Food.objects.all()
+        food = get_object_or_404(foods, id=food_id)
+        serializer = FoodSerializer(food)
+        return Response(serializer.data)
 
-class DetailsView(generics.RetrieveUpdateDestroyAPIView):
-    """This class handles the http GET, PUT and DELETE requests."""
+    def create(self, request):
+        food_attrs = json.loads(request.body)['food']
+        food = Food(name=food_attrs['name'], calories=food_attrs['calories'])
+        food.save()
+        serializer = FoodSerializer(food)
+        return Response(serializer.data)
 
-    queryset = Food.objects.all()
-    serializer_class = FoodSerializer
+    def update(self, request, food_id=None):
+        foods = Food.objects.all()
+        food = get_object_or_404(foods, id=food_id)
+        food_attrs = json.loads(request.body)['food']
+        food.name = food_attrs['name']
+        food.calories=food_attrs['calories']
+        food.save()
+        serializer = FoodSerializer(food)
+        return Response(serializer.data)
+
+    def partial_update(self, request, food_id=None):
+        foods = Food.objects.all()
+        food = get_object_or_404(foods, id=food_id)
+        food_attrs = json.loads(request.body)['food']
+        food.name = food_attrs['name']
+        food.calories=food_attrs['calories']
+        food.save()
+        serializer = FoodSerializer(food)
+        return Response(serializer.data)
+
+    def destroy(self, request, food_id=None):
+        foods = Food.objects.all()
+        food = get_object_or_404(foods, id=food_id)
+        food.delete()
+        return HttpResponse(status=204)

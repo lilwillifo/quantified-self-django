@@ -28,7 +28,7 @@ class ViewTestCase(TestCase):
         self.client = APIClient()
         self.food_data = {'name': 'Oatmeal', 'calories': '500'}
         self.response = self.client.post(
-            reverse('create'),
+            reverse_action('create'),
             self.food_data,
             format="json")
 
