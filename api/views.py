@@ -39,6 +39,7 @@ class FoodViews(viewsets.ViewSet):
     def partial_update(self, request, food_id=None):
         foods = Food.objects.all()
         food = get_object_or_404(foods, id=food_id)
+        # import code; code.interact(local=dict(globals(), **locals()))
         food_attrs = json.loads(request.body)['food']
         food.name = food_attrs['name']
         food.calories=food_attrs['calories']
