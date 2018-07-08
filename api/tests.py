@@ -52,20 +52,19 @@ class FoodViewsTest(TestCase):
         # import code; code.interact(local=dict(globals(), **locals()))
         js = response.json()
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(js["name"], "look at me a new food")
         self.assertEqual(js["calories"], 2)
 
-    # def test_api_can_get_a_food(self):
-    #     """Test the api can get a given food."""
-    #     food = Food.objects.get()
-    #     response = self.client.get(
-    #       reverse('details', kwargs={'pk': food.id}),
-    #       format="json")
-    #
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertContains(response, food)
-    #
+    def test_api_can_get_a_food(self):
+        """Test the api can get a given food."""
+        food = Food.objects.first()
+
+        response = self.client.get(f'/api/v1/foods/{food.id}')
+        js = response.json()
+
+        self.assertEqual(js["name"], self.apple.name)
+        self.assertEqual(js["calories"], self.apple.calories)
+
     # def test_api_can_update_food(self):
     #     """Test the api can update a given food."""
     #     food = Food.objects.get()
