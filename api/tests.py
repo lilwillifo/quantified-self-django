@@ -22,29 +22,40 @@ class ModelTestCase(TestCase):
         new_count = Food.objects.count()
         self.assertNotEqual(old_count, new_count)
 
-# class ViewSetTest(TestCase):
-    # """Test suite for the api views."""
-    # def test_view_set(self):
-    #     request = APIRequestFactory().get("")
-    #     food_detail = FoodViews.as_view({'get': 'retrieve'})
-    #     food = Food.objects.create(name="banana", calories= 80)
-    #     response = food_detail(request)
-    #     self.assertEqual(response.status_code, 200)
-    # def setUp(self):
-    #     """Define the test client and other test variables."""
-    #     # self.client = APIClient()
-    #     self.factory = APIRequestFactory()
-    #     self.response = self.factory.post('/foods/', {'name': 'Oatmeal', 'calories': '500'}, format='json')
-    #     # self.food_data = {'name': 'Oatmeal', 'calories': '500'}
-    #     # self.response = self.client.post(
-    #     #     reverse('create'),
-    #     #     self.food_data,
-    #     #     format="json")
-    #
-    # def test_api_can_create_a_food(self):
-    #     """Test the api has food creation capability."""
-    #     self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
-    #
+class FoodViewsTest(TestCase):
+    """Test suite for the food api views."""
+
+    def setUp(self):
+        """Define the test client and other test variables."""
+        self.client = APIClient()
+        self.apple = Food.objects.create(name="apple", calories=50)
+        self.oatmeal = Food.objects.create(name="oatmeal", calories=400)
+
+    def test_status_for_all_foods(self):
+        response = self.client.get('/api/v1/foods/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+    def test_gets_all_foods(self):
+        response = self.client.get('/api/v1/foods/')
+        js = response.json()
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(js), 2)
+        self.assertEqual(js[0]["name"], self.apple.name)
+        self.assertEqual(js[0]["calories"], self.apple.calories)
+        self.assertEqual(js[1]["name"], self.oatmeal.name)
+        self.assertEqual(js[1]["calories"], self.oatmeal.calories)
+
+    def test_api_can_create_a_food(self):
+        """Test the api has food creation capability."""
+        response = self.client.post('/api/v1/foods/', {'food': {'name': 'look at me a new food', 'calories': 2}}, format='json')
+        # import code; code.interact(local=dict(globals(), **locals()))
+        js = response.json()
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(js["name"], "look at me a new food")
+        self.assertEqual(js["calories"], 2)
+
     # def test_api_can_get_a_food(self):
     #     """Test the api can get a given food."""
     #     food = Food.objects.get()
