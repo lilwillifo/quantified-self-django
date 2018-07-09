@@ -65,21 +65,17 @@ class FoodViewsTest(TestCase):
         self.assertEqual(js["name"], self.apple.name)
         self.assertEqual(js["calories"], self.apple.calories)
 
-    # def test_api_can_update_food(self):
-    #     """Test the api can update a given food."""
-    #     food = Food.objects.get()
-    #     change_food = {'name': 'Something new', 'calories': '100'}
-    #     res = self.client.put(
-    #       reverse('details', kwargs={'pk': food.id}),
-    #       change_food, format='json'
-    #     )
-    #     self.assertEqual(res.status_code, status.HTTP_200_OK)
-    #
-    # def test_api_can_delete_food(self):
-    #     """Test the api can delete a food."""
-    #     food = Food.objects.get()
-    #     response = self.client.delete(
-    #       reverse('details', kwargs={'pk': food.id}),
-    #       format='json',
-    #       follow=True)
-    #     self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
+    def test_api_can_update_food(self):
+        """Test the api can update a given food."""
+        food = Food.objects.first()
+        change = {'food': {'name': 'Something new', 'calories': '100'}}
+        response = self.client.patch(f'/api/v1/foods/{food.id}', change, format='json')
+        js = response.json()
+        self.assertEqual(js["name"], "Something new")
+        self.assertEqual(js["calories"], 100)
+
+    def test_api_can_delete_food(self):
+        """Test the api can delete a food."""
+        food = Food.objects.last()
+        response = self.client.delete(f'/api/v1/foods/{food.id}')
+        self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
