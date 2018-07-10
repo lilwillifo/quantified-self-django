@@ -1,7 +1,7 @@
 
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import FoodViews
+from .views import FoodViews, MealViews
 
 urlpatterns = {
     url(r'^foods', FoodViews.as_view({'get': 'list', 'post': 'create'})),

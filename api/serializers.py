@@ -17,4 +17,4 @@ class MealSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = Meal
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'foods')
