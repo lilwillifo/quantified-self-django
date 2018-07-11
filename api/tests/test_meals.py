@@ -18,6 +18,7 @@ class MealViewsTest(TestCase):
         self.snack = Meal.objects.create(name="snack")
         self.lunch = Meal.objects.create(name="lunch")
         self.dinner = Meal.objects.create(name="dinner")
+        self.breakfast.foods.add(self.apple)
 
     def test_gets_all_meals(self):
         response = self.client.get('/api/v1/meals/')
@@ -28,3 +29,13 @@ class MealViewsTest(TestCase):
         self.assertEqual(js[1]["name"], self.snack.name)
         self.assertEqual(js[2]["name"], self.lunch.name)
         self.assertEqual(js[3]["name"], self.dinner.name)
+
+    def test_gets_single_meal(self):
+        meal_id = str(self.breakfast.id)
+        response = self.client.get(f'/api/v1/meals/{meal_id}/foods')
+
+        meal_response = response.json()
+
+        self.assertEqual(meal_response['name'], 'Breakfast')
+        self.assertEqual(meal_response['foods'][0]['name'], self.apple.name)
+        self.assertEqual(meal_response['foods'][0]['calories'], self.apple.calories)
