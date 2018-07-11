@@ -38,3 +38,10 @@ class MealViewsTest(TestCase):
         self.assertEqual(meal_response['name'], 'breakfast')
         self.assertEqual(meal_response['foods'][0]['name'], self.apple.name)
         self.assertEqual(meal_response['foods'][0]['calories'], self.apple.calories)
+
+    def test_api_can_create_a_meal(self):
+        """Test the api has meal creation capability."""
+        response = self.client.post(f'/api/v1/meals/{self.breakfast.id}/foods/{self.oatmeal.id}')
+        # import code; code.interact(local=dict(globals(), **locals()))
+
+        self.assertEqual(response.data['message'], "Successfully added oatmeal to breakfast")
