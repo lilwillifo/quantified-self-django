@@ -39,9 +39,16 @@ class MealViewsTest(TestCase):
         self.assertEqual(meal_response['foods'][0]['name'], self.apple.name)
         self.assertEqual(meal_response['foods'][0]['calories'], self.apple.calories)
 
-    def test_api_can_create_a_meal(self):
-        """Test the api has meal creation capability."""
+    def test_api_can_add_food_to_a_meal(self):
+        """Test the api can add food to a meal capability."""
         response = self.client.post(f'/api/v1/meals/{self.breakfast.id}/foods/{self.oatmeal.id}')
         # import code; code.interact(local=dict(globals(), **locals()))
 
         self.assertEqual(response.data['message'], "Successfully added oatmeal to breakfast")
+
+    def test_api_can_delete_food_from_a_meal(self):
+        """Test the api can delete a food from a meal"""
+        response = self.client.delete(f'/api/v1/meals/{self.breakfast.id}/foods/{self.apple.id}')
+        # import code; code.interact(local=dict(globals(), **locals()))
+
+        self.assertEqual(response.data['message'], "Successfully removed apple from breakfast")
