@@ -1,9 +1,9 @@
-from django.test import TestCase
+import json
 from api.models import Food
-# from .models import Meal
 from rest_framework.test import APIClient
 from rest_framework import status
-from api.views import FoodViews
+from django.test import TestCase
+
 
 class ModelTestCase(TestCase):
     """This class defines the test suite for the food model."""
@@ -32,12 +32,14 @@ class FoodViewsTest(TestCase):
 
     def test_status_for_all_foods(self):
         response = self.client.get('/api/v1/foods/')
+        # import code; code.interact(local=dict(globals(), **locals()))
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
     def test_gets_all_foods(self):
         response = self.client.get('/api/v1/foods/')
-        js = response.json()
+        js = self.client.get('/api/v1/foods/').json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(js), 2)
         self.assertEqual(js[0]["name"], self.apple.name)
@@ -48,7 +50,6 @@ class FoodViewsTest(TestCase):
     def test_api_can_create_a_food(self):
         """Test the api has food creation capability."""
         response = self.client.post('/api/v1/foods/', {'food': {'name': 'look at me a new food', 'calories': 2}}, format='json')
-        # import code; code.interact(local=dict(globals(), **locals()))
         js = response.json()
 
         self.assertEqual(js["name"], "look at me a new food")

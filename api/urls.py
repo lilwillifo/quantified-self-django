@@ -1,13 +1,13 @@
-
-from django.conf.urls import url, include
+from django.urls import include, path
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import FoodViews, MealViews
 
 urlpatterns = {
-    url(r'^foods', FoodViews.as_view({'get': 'list', 'post': 'create'})),
-    url(r'^foods/(?P<food_id>\d+)$', FoodViews.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
-    url(r'^meals', MealViews.as_view({'get': 'list'})),
-
+    path('foods/', FoodViews.as_view({'get': 'list', 'post': 'create'})),
+    path('foods/<food_id>', FoodViews.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
+    path('meals/', MealViews.as_view({'get': 'list'})),
+    path('meals/<meal_id>/foods', MealViews.as_view({'get': 'retrieve'})),
+    path('meals/<meal_id>/foods/<food_id>', MealViews.as_view({'post': 'create', 'delete': 'destroy'}))
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)
