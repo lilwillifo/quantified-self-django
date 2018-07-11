@@ -23,6 +23,8 @@ class FoodViews(viewsets.ViewSet):
         food_attrs = json.loads(request.body)['food']
         food = Food(name=food_attrs['name'], calories=food_attrs['calories'])
         food.save()
+                # import code; code.interact(local=dict(globals(), **locals()))
+
         serializer = FoodSerializer(food)
         return Response(serializer.data)
 
@@ -64,5 +66,5 @@ class MealViews(viewsets.ViewSet):
     def retrieve(self, request, meal_id=None):
         meals = Meal.objects.all()
         meal = get_object_or_404(meals, id=meal_id)
-        serializer = MealSerializer(food)
+        serializer = MealSerializer(meal)
         return Response(serializer.data)
