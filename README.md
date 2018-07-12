@@ -31,6 +31,7 @@ You'll need Python3 and Django 2.0.7 installed.
 4. Migrate and Seed
   ```shell
   python3 manage.py makemigrations
+  python3 manage.py migrate
   ```
 
 5. Run test suite
